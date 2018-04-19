@@ -1,0 +1,27 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5671:5671"
+      - "5672:5672"
+      - "15671:15671"
+      - "15672:15672"
+    networks:
+      - cdn
+
+  mongo:
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - cdn
+      - webapp
+
+networks:
+  cdn:
+    driver: bridge
+  webapp:
+    driver: bridge
