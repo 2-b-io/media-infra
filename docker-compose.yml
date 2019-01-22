@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 services:
   rabbitmq:
     image: rabbitmq:3-management
@@ -8,20 +8,19 @@ services:
       - "15671:15671"
       - "15672:15672"
     networks:
-      - cdn
+      - infra
 
   mongo:
-    image: mongo
+    image: mongo:3.6
     volumes:
       - ./mongo:/data/db
     ports:
       - "27017:27017"
     networks:
-      - cdn
-      - webapp
+      - infra
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
@@ -35,11 +34,9 @@ services:
     volumes:
       - ./es:/usr/share/elasticsearch/data
     networks:
-      - cdn
-      - webapp
+      - infra
 
 networks:
-  cdn:
-    driver: bridge
-  webapp:
+  infra:
+    name: infra
     driver: bridge
